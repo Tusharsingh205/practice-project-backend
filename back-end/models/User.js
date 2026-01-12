@@ -9,8 +9,8 @@ const userSchema = new mongoose.Schema(
     },
     email: {
       type: String,
+      unique: true,
     required: true,
-      lowercase: true,
     },
     password: {
       type: String,
@@ -20,6 +20,17 @@ const userSchema = new mongoose.Schema(
     contact: {
       type: String,
      required: true,
+    },
+    
+    otp: {
+      type: String,
+    },
+    otpExpiry: {
+      type: Date,
+    },  
+    isExpired: {
+      type: Boolean,
+      default: false,
     },
     role: {
       type: String,

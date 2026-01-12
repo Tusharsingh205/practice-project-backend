@@ -24,27 +24,34 @@ require("dotenv").config();
 //   }
 // };
 
-
-exports.auth = (req, res, next) => {
-
-    try {
-      const token = req.body.token;
-  
-      if (!token) {
-        return res.status(401).json({ success: false, message: "Not authorized" });
-      }
-  
-      try {
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        req.user = decoded; 
-        next();     
-    } catch (error) {
-      res.status(401).json({ message: "Token invalid " });
+module.exports = (req, res, next) => {
+    if (!req.session.user) {
+      return res.status(401).json({ message: "Not authorized ❌" });
     }
-    } catch (error) {
-      res.status(500).json({ success: false, message: "Something went wrong,while verifying the token" });
-    }
-}
+    next();
+  };                
+      
+
+// exports.auth = (req, res, next) => {
+
+//     try {
+//       const token = req.body.token;
+  
+//       if (!token) {
+//         return res.status(401).json({ success: false, message: "Not authorized" });
+//       }
+  
+//       try {
+//         const decoded = jwt.verify(token, process.env.JWT_SECRET);
+//         req.user = decoded; 
+//         next();     
+//     } catch (error) {
+//       res.status(401).json({ message: "Token invalid " });
+//     }
+//     } catch (error) {
+//       res.status(500).json({ success: false, message: "Something went wrong,while verifying the token" });
+//     }
+// }
 
   
 
